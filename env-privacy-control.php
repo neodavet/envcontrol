@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Environment Privacy Control
+ * Plugin Name: Environment Privacy Control
  * Description: Force option of "Discourage search engines from indexing this site" when HOME URL is not production or WP_ENV is not production.
  * Author: neodavet
  * Author URI: https://neodavet.github.io/davetportfolio/

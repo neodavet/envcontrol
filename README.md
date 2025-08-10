@@ -1,4 +1,4 @@
-# WP Environment Privacy Control
+# Environment Privacy Control
 
 A WordPress plugin that automatically controls search engine indexing based on your environment (production vs development/staging).
 
@@ -36,6 +36,7 @@ This plugin prevents accidental search engine indexing of development, staging, 
 - WordPress 4.0 or higher
 - PHP 5.6 or higher
 - Administrator privileges for configuration
+- **Tested up to**: WordPress 6.7
 
 ## 🛠️ Installation
 
@@ -146,6 +147,13 @@ We welcome contributions! This plugin will be submitted to the WordPress.org rep
 ## 📄 License
 
 This plugin is licensed under the GPL2+ license.
+
+**License**: GPLv2 or later  
+**License URI**: https://www.gnu.org/licenses/gpl-2.0.html
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## 👨‍💻 Author
 
