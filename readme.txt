@@ -1,5 +1,5 @@
-=== WP Environment Privacy Control ===
-Contributors: neodavet
+=== Environment Privacy Control ===
+Contributors: davet86
 Tags: environment, privacy, search engines, development, staging
 Requires at least: 4.0
 Tested up to: 6.7
