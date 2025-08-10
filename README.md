@@ -136,7 +136,7 @@ We welcome contributions! This plugin will be submitted to the WordPress.org rep
 
 ## 📝 Changelog
 
-### Version 2.0
+### Version 1.0
 - Complete rewrite with improved environment detection
 - Added configurable plugin deactivation behavior
 - Enhanced admin interface with status dashboard
