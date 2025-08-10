@@ -3,14 +3,14 @@
  * Plugin Name: WP Environment Privacy Control
  * Description: Force option of "Discourage search engines from indexing this site" when HOME URL is not production or WP_ENV is not production.
  * Author: neodavet
- * Version: 2.0
+ * Version: 1.0
  * License: GPL2+
  */
 
 defined('ABSPATH') || exit;
 
 // Define plugin constants
-define('WP_ENV_PRIVACY_CONTROL_VERSION', '2.0');
+define('WP_ENV_PRIVACY_CONTROL_VERSION', '1.0');
 define('WP_ENV_PRIVACY_CONTROL_OPTION', 'wp_env_privacy_control_settings');
 
 /**
@@ -52,7 +52,7 @@ function wp_env_privacy_control_register_settings() {
             'type' => 'object',
             'sanitize_callback' => 'wp_env_privacy_control_sanitize_settings',
             'default' => array(
-                'production_url' => 'https://www.example.com',
+                'production_url' => 'https://www.yoursite.com/',
                 'disable_when_plugin_disabled' => true
             )
         )
@@ -85,7 +85,7 @@ function wp_env_privacy_control_sanitize_settings($input) {
  */
 function wp_env_privacy_control_get_settings() {
     $defaults = array(
-        'production_url' => 'https://www.example.com/',
+        'production_url' => 'https://www.yoursite.com/',
         'disable_when_plugin_disabled' => true
     );
     
@@ -181,7 +181,7 @@ function wp_env_privacy_control_admin_page() {
                                    name="<?php echo WP_ENV_PRIVACY_CONTROL_OPTION; ?>[production_url]" 
                                    value="<?php echo esc_attr($settings['production_url']); ?>" 
                                    class="regular-text"
-                                   placeholder="https://www.example.com/"
+                                   placeholder="https://www.yoursite.com/"
                                    required />
                             <p class="description">
                                 Enter the production URL. This URL will be compared against the current site URL to determine if search engines should be allowed to index the site.
