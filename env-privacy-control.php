@@ -5,12 +5,12 @@
  * Author: neodavet
  * Author URI: https://neodavet.github.io/davetportfolio/
  * Version: 1.0
- * Text Domain: environment-privacy-control
+ * Text Domain: wp-envcontrol
  * Tags: v1.0
- * Requires at least: 6.7
- * Tested up to: 6.7
+ * Requires at least: 6.8
+ * Tested up to: 6.8
  * Stable tag: 1.0
- * Requires PHP: 8.0
+ * Requires PHP: 5.6
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -186,7 +186,7 @@ function wp_env_privacy_control_admin_page() {
                         <td>
                             <input type="url" 
                                    id="wp_env_production_url" 
-                                   name="<?php echo WP_ENV_PRIVACY_CONTROL_OPTION; ?>[production_url]" 
+                                   name="<?php echo esc_attr(WP_ENV_PRIVACY_CONTROL_OPTION); ?>[production_url]" 
                                    value="<?php echo esc_attr($settings['production_url']); ?>" 
                                    class="regular-text"
                                    placeholder="https://www.yoursite.com/"
@@ -204,7 +204,7 @@ function wp_env_privacy_control_admin_page() {
                             <label>
                                 <input type="checkbox" 
                                     id="wp_env_disable_when_plugin_disabled" 
-                                       name="<?php echo WP_ENV_PRIVACY_CONTROL_OPTION; ?>[disable_when_plugin_disabled]" 
+                                       name="<?php echo esc_attr(WP_ENV_PRIVACY_CONTROL_OPTION); ?>[disable_when_plugin_disabled]" 
                                        value="1" 
                                        <?php checked($settings['disable_when_plugin_disabled'], true); ?> />
                                 Disable "Discourage search engines" option when plugin is disabled
@@ -304,7 +304,7 @@ add_action('admin_notices', function() {
         
         $message .= 'The option <em>"Discourage search engines from indexing this site"</em> is automatically enforced.';
         
-        echo '<div class="notice notice-error"><p>' . $message . '</p></div>';
+        echo '<div class="notice notice-error"><p>' . wp_kses_post($message) . '</p></div>';
     }
 });
 
