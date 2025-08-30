@@ -163,7 +163,7 @@ function wp_env_privacy_control_admin_page() {
                         <?php if ($settings['disable_when_plugin_disabled']): ?>
                             <span style="color: blue; font-weight: bold;">✓ Will disable "Discourage search engines" when plugin is deactivated</span>
                         <?php else: ?>
-                            <span style="color: orange; font-weight: bold;">⚠ Will preserve current setting when plugin is deactivated</span>
+                            <span style="color: orange; font-weight: bold;">⚠ Will allow search engines when plugin is deactivated</span>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -210,7 +210,7 @@ function wp_env_privacy_control_admin_page() {
                                 Disable "Discourage search engines" option when plugin is disabled
                             </label>
                             <p class="description">
-                                When enabled, if this plugin is deactivated, the "Discourage search engines from indexing this site" option will be automatically disabled (set to allow indexing).
+                                When enabled, if this plugin is deactivated, the "Discourage search engines from indexing this site" option will be automatically disabled (set to allow indexing). When disabled, search engines will still be allowed when the plugin is deactivated (safe default).
                             </p>
                         </td>
                     </tr>
@@ -278,14 +278,11 @@ function wp_env_privacy_control_is_production_environment() {
  * Filter the value of the 'blog_public' option based on environment check.
  */
 add_filter('pre_option_blog_public', function($default) {
-    global $wpdb;
     if (!wp_env_privacy_control_is_production_environment()) {
-        $wpdb->query("UPDATE {$wpdb->prefix}options SET option_value = '0' WHERE option_name = 'blog_public'");
         return 0; // Force discourage search engines
     }
     else {
-        $wpdb->query("UPDATE {$wpdb->prefix}options SET option_value = '1' WHERE option_name = 'blog_public'");
-        return 1; // Use the actual database value for production
+        return 1; // Allow search engines in production
     }
 });
 
@@ -338,6 +335,9 @@ function wp_env_privacy_control_deactivate() {
     // If the setting is enabled, disable the "discourage search engines" option when plugin is deactivated
     if ($settings['disable_when_plugin_disabled']) {
         update_option('blog_public', '1'); // Allow search engines
+    } else {
+        // When preserving, always default to allowing search engines
+        // This is the safest choice since it prevents accidental blocking
+        update_option('blog_public', '1');
     }
-    // If the setting is disabled, leave the current blog_public setting as is
 }
