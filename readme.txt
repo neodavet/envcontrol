@@ -48,7 +48,7 @@ This plugin prevents accidental search engine indexing of development, staging, 
 
 1. Upload the plugin files to the `/wp-content/plugins/envcontrol/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the Tools > WP Environment Privacy Control screen to configure the plugin.
+3. Use the Tools > WP Environment Control screen to configure the plugin.
 
 == Frequently Asked Questions ==
 
@@ -91,7 +91,7 @@ You can configure whether the plugin should restore search engine indexing when 
 
 = Setting Up Production URL =
 
-1. Navigate to Tools > WP Environment Privacy Control
+1. Navigate to Tools > WP Environment Control
 2. Enter your production site URL (e.g., https://www.yoursite.com/)
 3. Configure plugin deactivation behavior
 4. Save settings
