@@ -1,4 +1,4 @@
-=== Environment Privacy Control ===
+=== Environment Control ===
 Contributors: davet86
 Tags: environment, privacy, search engines, development, staging
 Requires at least: 6.8
