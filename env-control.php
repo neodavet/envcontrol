@@ -307,6 +307,7 @@ add_action('admin_notices', function() {
         $message = '<strong>' . __('Environment Control Notice:', 'envcontrol') . '</strong> ';
         
         if (defined('WP_ENV') && WP_ENV !== 'production') {
+            /* translators: %s: The current WP_ENV value (e.g., development, staging) */
             $message .= sprintf(__('WP_ENV is set to %s.', 'envcontrol'), '<code>' . esc_html(WP_ENV) . '</code>');
         } else {
             $message .= __('Current URL does not match production URL.', 'envcontrol');
