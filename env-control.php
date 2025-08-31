@@ -4,12 +4,12 @@
  * Description: Control WordPress settings based on environment detection (production vs non-production). Includes search engine indexing control and provides a framework for implementing custom environment-based settings.
  * Author: neodavet
  * Author URI: https://neodavet.github.io/davetportfolio/
- * Version: 1.0
+ * Version: 1.0.0
  * Text Domain: envcontrol
  * Tags: environment, production, development, staging, settings, indexing, framework
  * Requires at least: 6.8
  * Tested up to: 6.8
- * Stable tag: 1.0
+
  * Requires PHP: 5.6
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@
 defined('ABSPATH') || exit;
 
 // Define plugin constants
-define('ENV_CONTROL_VERSION', '1.0');
+define('ENV_CONTROL_VERSION', '1.0.0');
 define('ENV_CONTROL_OPTION', 'env_control_settings');
 
 /**

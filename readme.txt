@@ -4,7 +4,7 @@ Tags: environment, privacy, search engines, development, staging
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 1.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,12 +80,16 @@ You can configure whether the plugin should restore search engine indexing when 
 == Changelog ==
 
 = 1.0.0 =
-* Initial release
-* Complete rewrite with improved environment detection
-* Added configurable plugin deactivation behavior
-* Enhanced admin interface with status dashboard
-* Improved URL handling and validation
-* Added backward compatibility support
+* Initial release of Environment Control
+* Automatic environment detection using WP_ENV constant or URL comparison
+* Automatic search engine indexing control for non-production environments
+* Admin dashboard with real-time environment status
+* Configurable production URL settings
+* Safe plugin deactivation behavior (restores search engine access)
+* Visual indicators for production vs non-production status
+* Admin notices for non-production environment awareness
+* Extensible framework for custom environment-based controls
+* Developer functions for custom integrations
 
 == Configuration ==
 
