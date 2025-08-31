@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Environment Privacy Control
- * Description: Force option of "Discourage search engines from indexing this site" when HOME URL is not production or WP_ENV is not production.
+ * Plugin Name: Environment Control
+ * Description: Control WordPress settings based on environment detection (production vs non-production). Includes search engine indexing control and provides a framework for implementing custom environment-based settings.
  * Author: neodavet
  * Author URI: https://neodavet.github.io/davetportfolio/
  * Version: 1.0
- * Text Domain: wp-envcontrol
- * Tags: v1.0
+ * Text Domain: envcontrol
+ * Tags: environment, production, development, staging, settings, indexing, framework
  * Requires at least: 6.8
  * Tested up to: 6.8
  * Stable tag: 1.0
@@ -18,47 +18,47 @@
 defined('ABSPATH') || exit;
 
 // Define plugin constants
-define('WP_ENV_PRIVACY_CONTROL_VERSION', '1.0');
-define('WP_ENV_PRIVACY_CONTROL_OPTION', 'wp_env_privacy_control_settings');
+define('ENV_CONTROL_VERSION', '1.0');
+define('ENV_CONTROL_OPTION', 'env_control_settings');
 
 /**
  * Initialize the plugin
  */
-function wp_env_privacy_control_init() {
+function env_control_init() {
     // Add admin menu
-    add_action('admin_menu', 'wp_env_privacy_control_admin_menu');
+    add_action('admin_menu', 'env_control_admin_menu');
     
     // Register settings
-    add_action('admin_init', 'wp_env_privacy_control_register_settings');
+    add_action('admin_init', 'env_control_register_settings');
     
     // Add settings link to plugins page
-    add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wp_env_privacy_control_settings_link');
+    add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'env_control_settings_link');
 }
-add_action('init', 'wp_env_privacy_control_init');
+add_action('init', 'env_control_init');
 
 /**
  * Add admin menu under Tools
  */
-function wp_env_privacy_control_admin_menu() {
+function env_control_admin_menu() {
     add_management_page(
-        'WP Environment Privacy Control',
-        'WP Environment Privacy Control',
+        'Environment Control',
+        'Environment Control',
         'manage_options',
-        'wp-env-privacy-control',
-        'wp_env_privacy_control_admin_page'
+        'env-control',
+        'env_control_admin_page'
     );
 }
 
 /**
  * Register plugin settings
  */
-function wp_env_privacy_control_register_settings() {
+function env_control_register_settings() {
     register_setting(
-        'wp_env_privacy_control_settings',
-        WP_ENV_PRIVACY_CONTROL_OPTION,
+        'env_control_settings',
+        ENV_CONTROL_OPTION,
         array(
             'type' => 'object',
-            'sanitize_callback' => 'wp_env_privacy_control_sanitize_settings',
+            'sanitize_callback' => 'env_control_sanitize_settings',
             'default' => array(
                 'production_url' => 'https://www.yoursite.com/',
                 'disable_when_plugin_disabled' => true
@@ -70,7 +70,7 @@ function wp_env_privacy_control_register_settings() {
 /**
  * Sanitize settings
  */
-function wp_env_privacy_control_sanitize_settings($input) {
+function env_control_sanitize_settings($input) {
     $sanitized = array();
     
     if (isset($input['production_url'])) {
@@ -82,7 +82,7 @@ function wp_env_privacy_control_sanitize_settings($input) {
         }
     }
     
-    // Sanitize the new setting
+    // Sanitize the disable when plugin disabled setting
     $sanitized['disable_when_plugin_disabled'] = isset($input['disable_when_plugin_disabled']) ? (bool) $input['disable_when_plugin_disabled'] : false;
     
     return $sanitized;
@@ -91,42 +91,46 @@ function wp_env_privacy_control_sanitize_settings($input) {
 /**
  * Get plugin settings
  */
-function wp_env_privacy_control_get_settings() {
+function env_control_get_settings() {
     $defaults = array(
         'production_url' => 'https://www.yoursite.com/',
         'disable_when_plugin_disabled' => true
     );
     
-    $settings = get_option(WP_ENV_PRIVACY_CONTROL_OPTION, array());
+    $settings = get_option(ENV_CONTROL_OPTION, array());
     return wp_parse_args($settings, $defaults);
 }
 
 /**
  * Get production URL from settings
  */
-function wp_env_privacy_control_get_production_url() {
-    $settings = wp_env_privacy_control_get_settings();
+function env_control_get_production_url() {
+    $settings = env_control_get_settings();
     return $settings['production_url'];
 }
 
 /**
  * Admin page content
  */
-function wp_env_privacy_control_admin_page() {
+function env_control_admin_page() {
     // Check user capabilities
     if (!current_user_can('manage_options')) {
         return;
     }
     
-    $settings = wp_env_privacy_control_get_settings();
+    $settings = env_control_get_settings();
     $current_url = home_url('/');
-    $is_production = wp_env_privacy_control_is_production_environment();
+    $is_production = env_control_is_production_environment();
     
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         
-        <div class="wp-env-privacy-control-status">
+        <div class="env-control-intro">
+            <p><strong>Environment Control</strong> automatically manages WordPress settings based on your environment (production vs non-production). This plugin serves as a framework that you can extend to implement custom environment-based controls for any WordPress setting.</p>
+        </div>
+        
+        <div class="env-control-status">
             <h2>Current Status</h2>
             <table class="form-table">
                 <tr>
@@ -161,7 +165,7 @@ function wp_env_privacy_control_admin_page() {
                     <th scope="row">Plugin Disabled Behavior:</th>
                     <td>
                         <?php if ($settings['disable_when_plugin_disabled']): ?>
-                            <span style="color: blue; font-weight: bold;">✓ Will disable "Discourage search engines" when plugin is deactivated</span>
+                            <span style="color: blue; font-weight: bold;">✓ Will allow search engines when plugin is deactivated</span>
                         <?php else: ?>
                             <span style="color: orange; font-weight: bold;">⚠ Will allow search engines when plugin is deactivated</span>
                         <?php endif; ?>
@@ -172,45 +176,45 @@ function wp_env_privacy_control_admin_page() {
         
         <form method="post" action="options.php">
             <?php
-            settings_fields('wp_env_privacy_control_settings');
-            do_settings_sections('wp_env_privacy_control_settings');
+            settings_fields('env_control_settings');
+            do_settings_sections('env_control_settings');
             ?>
             
-            <div class="wp-env-privacy-control-settings">
+            <div class="env-control-settings">
                 <h2>Configuration</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <label for="wp_env_production_url">Production URL</label>
+                            <label for="env_production_url">Production URL</label>
                         </th>
                         <td>
                             <input type="url" 
-                                   id="wp_env_production_url" 
-                                   name="<?php echo esc_attr(WP_ENV_PRIVACY_CONTROL_OPTION); ?>[production_url]" 
+                                   id="env_production_url" 
+                                   name="<?php echo esc_attr(ENV_CONTROL_OPTION); ?>[production_url]" 
                                    value="<?php echo esc_attr($settings['production_url']); ?>" 
                                    class="regular-text"
                                    placeholder="https://www.yoursite.com/"
                                    required />
                             <p class="description">
-                                Enter the production URL. This URL will be compared against the current site URL to determine if search engines should be allowed to index the site.
+                                Enter the production URL. This URL will be compared against the current site URL to determine the environment and control settings accordingly.
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="wp_env_disable_when_plugin_disabled">Plugin Disabled Behavior</label>
+                            <label for="env_disable_when_plugin_disabled">Plugin Disabled Behavior</label>
                         </th>
                         <td>
                             <label>
                                 <input type="checkbox" 
-                                    id="wp_env_disable_when_plugin_disabled" 
-                                       name="<?php echo esc_attr(WP_ENV_PRIVACY_CONTROL_OPTION); ?>[disable_when_plugin_disabled]" 
+                                    id="env_disable_when_plugin_disabled" 
+                                       name="<?php echo esc_attr(ENV_CONTROL_OPTION); ?>[disable_when_plugin_disabled]" 
                                        value="1" 
                                        <?php checked($settings['disable_when_plugin_disabled'], true); ?> />
-                                Disable "Discourage search engines" option when plugin is disabled
+                                Explicitly allow search engines when plugin is disabled
                             </label>
                             <p class="description">
-                                When enabled, if this plugin is deactivated, the "Discourage search engines from indexing this site" option will be automatically disabled (set to allow indexing). When disabled, search engines will still be allowed when the plugin is deactivated (safe default).
+                                When enabled, search engines will be explicitly allowed when this plugin is deactivated. When disabled, search engines will still be allowed when the plugin is deactivated (safe default behavior).
                             </p>
                         </td>
                     </tr>
@@ -220,26 +224,35 @@ function wp_env_privacy_control_admin_page() {
             <?php submit_button('Save Settings'); ?>
         </form>
         
-        <div class="wp-env-privacy-control-info">
+        <div class="env-control-info">
             <h2>How It Works</h2>
-            <p>This plugin automatically controls whether search engines can index your website based on the environment:</p>
+            <p>This plugin automatically controls WordPress settings based on environment detection:</p>
             <ul>
-                <li><strong>Production Environment:</strong> When the current URL matches the production URL OR when <code>WP_ENV</code> is set to 'production', search engines are allowed to index the site.</li>
+                <li><strong>Production Environment:</strong> When the current URL matches the production URL OR when <code>WP_ENV</code> is set to 'production', the site operates in production mode with search engine indexing allowed.</li>
                 <li><strong>Non-Production Environment:</strong> When the current URL doesn't match the production URL OR when <code>WP_ENV</code> is not 'production', the "Discourage search engines from indexing this site" option is automatically enforced.</li>
-                <li><strong>Plugin Disabled Behavior:</strong> When the plugin is deactivated, you can choose whether to automatically disable the "Discourage search engines" option (allowing indexing) or preserve the current setting.</li>
+                <li><strong>Plugin Disabled Behavior:</strong> When the plugin is deactivated, search engines will be allowed by default to prevent accidental blocking of production sites.</li>
             </ul>
             
-            <h3>Priority Order</h3>
+            <h3>Environment Detection Priority</h3>
             <ol>
-                <li>If <code>WP_ENV</code> is defined, it takes priority over URL matching</li>
+                <li>If <code>WP_ENV</code> constant is defined, it takes priority over URL matching</li>
                 <li>If <code>WP_ENV</code> is not defined, the plugin compares the current URL with the production URL</li>
             </ol>
             
-            <h3>Plugin Lifecycle</h3>
+            <h3>Extensibility Framework</h3>
+            <p>This plugin provides a foundation for implementing custom environment-based controls:</p>
             <ul>
-                <li><strong>Activation:</strong> The plugin immediately applies the environment-based logic to the "Discourage search engines" setting</li>
-                <li><strong>Runtime:</strong> The plugin continuously monitors and enforces the correct setting based on the environment</li>
-                <li><strong>Deactivation:</strong> Depending on your configuration, the plugin can either disable the "Discourage search engines" option or preserve the current setting</li>
+                <li><strong>Hook into environment detection:</strong> Use <code>env_control_is_production_environment()</code> in your custom code</li>
+                <li><strong>Add custom settings:</strong> Extend the settings array and admin interface</li>
+                <li><strong>Control any WordPress option:</strong> Use filters similar to the search engine indexing implementation</li>
+                <li><strong>Environment-specific features:</strong> Enable/disable functionality based on environment</li>
+            </ul>
+            
+            <h3>Developer Functions</h3>
+            <ul>
+                <li><code>env_control_is_production_environment()</code> - Check if current environment is production</li>
+                <li><code>env_control_get_settings()</code> - Get plugin settings</li>
+                <li><code>env_control_get_production_url()</code> - Get configured production URL</li>
             </ul>
         </div>
     </div>
@@ -249,8 +262,8 @@ function wp_env_privacy_control_admin_page() {
 /**
  * Add settings link to plugins page
  */
-function wp_env_privacy_control_settings_link($links) {
-    $settings_link = '<a href="' . admin_url('tools.php?page=wp-env-privacy-control') . '">Settings</a>';
+function env_control_settings_link($links) {
+    $settings_link = '<a href="' . admin_url('tools.php?page=env-control') . '">' . __('Settings', 'envcontrol') . '</a>';
     array_unshift($links, $settings_link);
     return $links;
 }
@@ -260,14 +273,14 @@ function wp_env_privacy_control_settings_link($links) {
  * 
  * @return boolean True if production, false otherwise
  */
-function wp_env_privacy_control_is_production_environment() {
+function env_control_is_production_environment() {
     // Check WP_ENV if defined
     if (defined('WP_ENV')) {
         return WP_ENV === 'production';
     }   
     else {
         // Check HOME URL against production URL from settings
-        $production_url = wp_env_privacy_control_get_production_url();
+        $production_url = env_control_get_production_url();
         $current_url = home_url('/');
 
         return $current_url === $production_url;
@@ -278,7 +291,7 @@ function wp_env_privacy_control_is_production_environment() {
  * Filter the value of the 'blog_public' option based on environment check.
  */
 add_filter('pre_option_blog_public', function($default) {
-    if (!wp_env_privacy_control_is_production_environment()) {
+    if (!env_control_is_production_environment()) {
         return 0; // Force discourage search engines
     }
     else {
@@ -290,34 +303,34 @@ add_filter('pre_option_blog_public', function($default) {
  * Display a notice in the admin area if we're not in production.
  */
 add_action('admin_notices', function() {
-    if (!wp_env_privacy_control_is_production_environment()) {
-        $message = '<strong>Warning:</strong> ';
+    if (!env_control_is_production_environment()) {
+        $message = '<strong>' . __('Environment Control Notice:', 'envcontrol') . '</strong> ';
         
         if (defined('WP_ENV') && WP_ENV !== 'production') {
-            $message .= 'WP_ENV is set to <code>' . esc_html(WP_ENV) . '</code>. ';
+            $message .= sprintf(__('WP_ENV is set to %s.', 'envcontrol'), '<code>' . esc_html(WP_ENV) . '</code>');
         } else {
-            $message .= 'Current URL does not match production URL. ';
+            $message .= __('Current URL does not match production URL.', 'envcontrol');
         }
         
-        $message .= 'The option <em>"Discourage search engines from indexing this site"</em> is automatically enforced.';
+        $message .= ' ' . __('Search engine indexing is automatically disabled.', 'envcontrol');
         
-        echo '<div class="notice notice-error"><p>' . wp_kses_post($message) . '</p></div>';
+        echo '<div class="notice notice-info"><p>' . wp_kses_post($message) . '</p></div>';
     }
 });
 
-// Backward compatibility - keep the old function name for any existing code
+// Backward compatibility function for any existing code that might use this
 function is_production_environment() {
-    return wp_env_privacy_control_is_production_environment();
+    return env_control_is_production_environment();
 }
 
 /**
  * Plugin activation hook
  */
-register_activation_hook(__FILE__, 'wp_env_privacy_control_activate');
+register_activation_hook(__FILE__, 'env_control_activate');
 
-function wp_env_privacy_control_activate() {
+function env_control_activate() {
     // When plugin is activated, apply the current environment logic
-    if (wp_env_privacy_control_is_production_environment()) {
+    if (env_control_is_production_environment()) {
         update_option('blog_public', '1'); // Allow search engines
     } else {
         update_option('blog_public', '0'); // Discourage search engines
@@ -327,17 +340,12 @@ function wp_env_privacy_control_activate() {
 /**
  * Plugin deactivation hook
  */
-register_deactivation_hook(__FILE__, 'wp_env_privacy_control_deactivate');
+register_deactivation_hook(__FILE__, 'env_control_deactivate');
 
-function wp_env_privacy_control_deactivate() {
-    $settings = wp_env_privacy_control_get_settings();
+function env_control_deactivate() {
+    $settings = env_control_get_settings();
     
-    // If the setting is enabled, disable the "discourage search engines" option when plugin is deactivated
-    if ($settings['disable_when_plugin_disabled']) {
-        update_option('blog_public', '1'); // Allow search engines
-    } else {
-        // When preserving, always default to allowing search engines
-        // This is the safest choice since it prevents accidental blocking
-        update_option('blog_public', '1');
-    }
+    // Always allow search engines when plugin is deactivated (safe default)
+    // This prevents accidental blocking of production sites
+    update_option('blog_public', '1'); // Allow search engines
 }
