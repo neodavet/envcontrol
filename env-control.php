@@ -5,7 +5,7 @@
  * Author: neodavet
  * Author URI: https://neodavet.github.io/davetportfolio/
  * Version: 1.0.1
- * Text Domain: envcontrol
+ * Text Domain: env-control
  * Tags: environment, production, development, staging, settings, indexing, framework
  * Requires at least: 6.8
  * Tested up to: 7.0
@@ -42,8 +42,8 @@ add_action( 'init', 'env_control_init' );
  */
 function env_control_admin_menu() {
 	add_management_page(
-		__( 'Environment Control', 'envcontrol' ),
-		__( 'Environment Control', 'envcontrol' ),
+		__( 'Environment Control', 'env-control' ),
+		__( 'Environment Control', 'env-control' ),
 		'manage_options',
 		'env-control',
 		'env_control_admin_page'
@@ -134,7 +134,7 @@ function env_control_admin_page() {
 			<p>
 				<?php
 				echo wp_kses(
-					__( '<strong>Environment Control</strong> automatically manages WordPress settings based on your environment (production vs non-production). This plugin serves as a framework that you can extend to implement custom environment-based controls for any WordPress setting.', 'envcontrol' ),
+					__( '<strong>Environment Control</strong> automatically manages WordPress settings based on your environment (production vs non-production). This plugin serves as a framework that you can extend to implement custom environment-based controls for any WordPress setting.', 'env-control' ),
 					array( 'strong' => array() )
 				);
 				?>
@@ -142,43 +142,43 @@ function env_control_admin_page() {
 		</div>
 
 		<div class="env-control-status">
-			<h2><?php esc_html_e( 'Current Status', 'envcontrol' ); ?></h2>
+			<h2><?php esc_html_e( 'Current Status', 'env-control' ); ?></h2>
 			<table class="form-table">
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Current URL:', 'envcontrol' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Current URL:', 'env-control' ); ?></th>
 					<td><code><?php echo esc_html( $current_url ); ?></code></td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Production URL:', 'envcontrol' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Production URL:', 'env-control' ); ?></th>
 					<td><code><?php echo esc_html( $settings['production_url'] ); ?></code></td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Environment Status:', 'envcontrol' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Environment Status:', 'env-control' ); ?></th>
 					<td>
 						<?php if ( $is_production ) : ?>
-							<span style="color: green; font-weight: bold;">✓ <?php esc_html_e( 'Production Environment', 'envcontrol' ); ?></span>
+							<span style="color: green; font-weight: bold;">✓ <?php esc_html_e( 'Production Environment', 'env-control' ); ?></span>
 						<?php else : ?>
-							<span style="color: red; font-weight: bold;">✗ <?php esc_html_e( 'Non-Production Environment', 'envcontrol' ); ?></span>
+							<span style="color: red; font-weight: bold;">✗ <?php esc_html_e( 'Non-Production Environment', 'env-control' ); ?></span>
 						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Search Engine Indexing:', 'envcontrol' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Search Engine Indexing:', 'env-control' ); ?></th>
 					<td>
 						<?php if ( $is_production ) : ?>
-							<span style="color: green; font-weight: bold;">✓ <?php esc_html_e( 'Allowed', 'envcontrol' ); ?></span>
+							<span style="color: green; font-weight: bold;">✓ <?php esc_html_e( 'Allowed', 'env-control' ); ?></span>
 						<?php else : ?>
-							<span style="color: red; font-weight: bold;">✗ <?php esc_html_e( 'Discouraged (Auto-enforced)', 'envcontrol' ); ?></span>
+							<span style="color: red; font-weight: bold;">✗ <?php esc_html_e( 'Discouraged (Auto-enforced)', 'env-control' ); ?></span>
 						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Plugin Disabled Behavior:', 'envcontrol' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Plugin Disabled Behavior:', 'env-control' ); ?></th>
 					<td>
 						<?php if ( $settings['disable_when_plugin_disabled'] ) : ?>
-							<span style="color: blue; font-weight: bold;">✓ <?php esc_html_e( 'Will allow search engines when plugin is deactivated', 'envcontrol' ); ?></span>
+							<span style="color: blue; font-weight: bold;">✓ <?php esc_html_e( 'Will allow search engines when plugin is deactivated', 'env-control' ); ?></span>
 						<?php else : ?>
-							<span style="color: orange; font-weight: bold;">⚠ <?php esc_html_e( 'Will keep current indexing setting unchanged when plugin is deactivated', 'envcontrol' ); ?></span>
+							<span style="color: orange; font-weight: bold;">⚠ <?php esc_html_e( 'Will apply the current environment\'s indexing setting when plugin is deactivated (non-production stays discouraged)', 'env-control' ); ?></span>
 						<?php endif; ?>
 					</td>
 				</tr>
@@ -192,11 +192,11 @@ function env_control_admin_page() {
 			?>
 
 			<div class="env-control-settings">
-				<h2><?php esc_html_e( 'Configuration', 'envcontrol' ); ?></h2>
+				<h2><?php esc_html_e( 'Configuration', 'env-control' ); ?></h2>
 				<table class="form-table">
 					<tr>
 						<th scope="row">
-							<label for="env_production_url"><?php esc_html_e( 'Production URL', 'envcontrol' ); ?></label>
+							<label for="env_production_url"><?php esc_html_e( 'Production URL', 'env-control' ); ?></label>
 						</th>
 						<td>
 							<input type="url"
@@ -207,13 +207,13 @@ function env_control_admin_page() {
 									placeholder="https://www.yoursite.com/"
 									required />
 							<p class="description">
-								<?php esc_html_e( 'Enter the production URL. This URL will be compared against the current site URL to determine the environment and control settings accordingly.', 'envcontrol' ); ?>
+								<?php esc_html_e( 'Enter the production URL. This URL will be compared against the current site URL to determine the environment and control settings accordingly.', 'env-control' ); ?>
 							</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="env_disable_when_plugin_disabled"><?php esc_html_e( 'Plugin Disabled Behavior', 'envcontrol' ); ?></label>
+							<label for="env_disable_when_plugin_disabled"><?php esc_html_e( 'Plugin Disabled Behavior', 'env-control' ); ?></label>
 						</th>
 						<td>
 							<label>
@@ -222,27 +222,27 @@ function env_control_admin_page() {
 										name="<?php echo esc_attr( ENV_CONTROL_OPTION ); ?>[disable_when_plugin_disabled]"
 										value="1"
 										<?php checked( $settings['disable_when_plugin_disabled'], true ); ?> />
-								<?php esc_html_e( 'Explicitly allow search engines when plugin is disabled', 'envcontrol' ); ?>
+								<?php esc_html_e( 'Explicitly allow search engines when plugin is disabled', 'env-control' ); ?>
 							</label>
 							<p class="description">
-								<?php esc_html_e( 'When enabled, search engines will be explicitly allowed when this plugin is deactivated. When disabled, the current indexing setting is left unchanged on deactivation, so non-production sites stay discouraged from indexing.', 'envcontrol' ); ?>
+								<?php esc_html_e( 'When enabled, search engines will be explicitly allowed when this plugin is deactivated. When disabled, the indexing setting matching the current environment is saved on deactivation, so non-production sites stay discouraged from indexing.', 'env-control' ); ?>
 							</p>
 						</td>
 					</tr>
 				</table>
 			</div>
 
-			<?php submit_button( __( 'Save Settings', 'envcontrol' ) ); ?>
+			<?php submit_button( __( 'Save Settings', 'env-control' ) ); ?>
 		</form>
 
 		<div class="env-control-info">
-			<h2><?php esc_html_e( 'How It Works', 'envcontrol' ); ?></h2>
-			<p><?php esc_html_e( 'This plugin automatically controls WordPress settings based on environment detection:', 'envcontrol' ); ?></p>
+			<h2><?php esc_html_e( 'How It Works', 'env-control' ); ?></h2>
+			<p><?php esc_html_e( 'This plugin automatically controls WordPress settings based on environment detection:', 'env-control' ); ?></p>
 			<ul>
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<strong>Production Environment:</strong> When the current URL matches the production URL OR when <code>WP_ENV</code> is set to \'production\', the site operates in production mode with search engine indexing allowed.', 'envcontrol' ),
+						__( '<strong>Production Environment:</strong> When the current URL matches the production URL OR when <code>WP_ENV</code> is set to \'production\', the site operates in production mode with search engine indexing allowed.', 'env-control' ),
 						array(
 							'strong' => array(),
 							'code'   => array(),
@@ -253,7 +253,7 @@ function env_control_admin_page() {
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<strong>Non-Production Environment:</strong> When the current URL doesn\'t match the production URL OR when <code>WP_ENV</code> is not \'production\', the "Discourage search engines from indexing this site" option is automatically enforced.', 'envcontrol' ),
+						__( '<strong>Non-Production Environment:</strong> When the current URL doesn\'t match the production URL OR when <code>WP_ENV</code> is not \'production\', the "Discourage search engines from indexing this site" option is automatically enforced.', 'env-control' ),
 						array(
 							'strong' => array(),
 							'code'   => array(),
@@ -264,19 +264,19 @@ function env_control_admin_page() {
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<strong>Plugin Disabled Behavior:</strong> When the plugin is deactivated, search engines will be allowed by default to prevent accidental blocking of production sites.', 'envcontrol' ),
+						__( '<strong>Plugin Disabled Behavior:</strong> When the plugin is deactivated, search engines are allowed by default to prevent accidental blocking of production sites. If you turn this option off, the setting for the current environment is saved instead (non-production stays discouraged).', 'env-control' ),
 						array( 'strong' => array() )
 					);
 					?>
 				</li>
 			</ul>
 
-			<h3><?php esc_html_e( 'Environment Detection Priority', 'envcontrol' ); ?></h3>
+			<h3><?php esc_html_e( 'Environment Detection Priority', 'env-control' ); ?></h3>
 			<ol>
 				<li>
 					<?php
 					echo wp_kses(
-						__( 'If <code>WP_ENV</code> constant is defined, it takes priority over URL matching', 'envcontrol' ),
+						__( 'If <code>WP_ENV</code> constant is defined, it takes priority over URL matching', 'env-control' ),
 						array( 'code' => array() )
 					);
 					?>
@@ -284,20 +284,20 @@ function env_control_admin_page() {
 				<li>
 					<?php
 					echo wp_kses(
-						__( 'If <code>WP_ENV</code> is not defined, the plugin compares the current URL with the production URL', 'envcontrol' ),
+						__( 'If <code>WP_ENV</code> is not defined, the plugin compares the current URL with the production URL', 'env-control' ),
 						array( 'code' => array() )
 					);
 					?>
 				</li>
 			</ol>
 
-			<h3><?php esc_html_e( 'Extensibility Framework', 'envcontrol' ); ?></h3>
-			<p><?php esc_html_e( 'This plugin provides a foundation for implementing custom environment-based controls:', 'envcontrol' ); ?></p>
+			<h3><?php esc_html_e( 'Extensibility Framework', 'env-control' ); ?></h3>
+			<p><?php esc_html_e( 'This plugin provides a foundation for implementing custom environment-based controls:', 'env-control' ); ?></p>
 			<ul>
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<strong>Hook into environment detection:</strong> Use <code>env_control_is_production_environment()</code> in your custom code', 'envcontrol' ),
+						__( '<strong>Hook into environment detection:</strong> Use <code>env_control_is_production_environment()</code> in your custom code', 'env-control' ),
 						array(
 							'strong' => array(),
 							'code'   => array(),
@@ -305,17 +305,17 @@ function env_control_admin_page() {
 					);
 					?>
 				</li>
-				<li><?php esc_html_e( 'Add custom settings: Extend the settings array and admin interface', 'envcontrol' ); ?></li>
-				<li><?php esc_html_e( 'Control any WordPress option: Use filters similar to the search engine indexing implementation', 'envcontrol' ); ?></li>
-				<li><?php esc_html_e( 'Environment-specific features: Enable/disable functionality based on environment', 'envcontrol' ); ?></li>
+				<li><?php echo wp_kses( __( '<strong>Add custom settings:</strong> Extend the settings array and admin interface', 'env-control' ), array( 'strong' => array() ) ); ?></li>
+				<li><?php echo wp_kses( __( '<strong>Control any WordPress option:</strong> Use filters similar to the search engine indexing implementation', 'env-control' ), array( 'strong' => array() ) ); ?></li>
+				<li><?php echo wp_kses( __( '<strong>Environment-specific features:</strong> Enable/disable functionality based on environment', 'env-control' ), array( 'strong' => array() ) ); ?></li>
 			</ul>
 
-			<h3><?php esc_html_e( 'Developer Functions', 'envcontrol' ); ?></h3>
+			<h3><?php esc_html_e( 'Developer Functions', 'env-control' ); ?></h3>
 			<ul>
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<code>env_control_is_production_environment()</code> - Check if current environment is production', 'envcontrol' ),
+						__( '<code>env_control_is_production_environment()</code> - Check if current environment is production', 'env-control' ),
 						array( 'code' => array() )
 					);
 					?>
@@ -323,7 +323,7 @@ function env_control_admin_page() {
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<code>env_control_get_settings()</code> - Get plugin settings', 'envcontrol' ),
+						__( '<code>env_control_get_settings()</code> - Get plugin settings', 'env-control' ),
 						array( 'code' => array() )
 					);
 					?>
@@ -331,7 +331,7 @@ function env_control_admin_page() {
 				<li>
 					<?php
 					echo wp_kses(
-						__( '<code>env_control_get_production_url()</code> - Get configured production URL', 'envcontrol' ),
+						__( '<code>env_control_get_production_url()</code> - Get configured production URL', 'env-control' ),
 						array( 'code' => array() )
 					);
 					?>
@@ -349,7 +349,7 @@ function env_control_admin_page() {
  * @return array Modified plugin action links.
  */
 function env_control_settings_link( $links ) {
-	$settings_link = '<a href="' . admin_url( 'tools.php?page=env-control' ) . '">' . __( 'Settings', 'envcontrol' ) . '</a>';
+	$settings_link = '<a href="' . admin_url( 'tools.php?page=env-control' ) . '">' . __( 'Settings', 'env-control' ) . '</a>';
 	array_unshift( $links, $settings_link );
 	return $links;
 }
@@ -400,17 +400,17 @@ add_action(
 		}
 
 		if ( ! env_control_is_production_environment() ) {
-			$message = '<strong>' . __( 'Environment Control Notice:', 'envcontrol' ) . '</strong> ';
+			$message = '<strong>' . __( 'Environment Control Notice:', 'env-control' ) . '</strong> ';
 
 			if ( defined( 'WP_ENV' ) && WP_ENV !== 'production' ) {
 				/* translators: %s: The current WP_ENV value (e.g., development, staging) */
-				$message .= sprintf( __( 'WP_ENV is set to %s.', 'envcontrol' ), '<code>' . esc_html( WP_ENV ) . '</code>' );
+				$message .= sprintf( __( 'WP_ENV is set to %s.', 'env-control' ), '<code>' . esc_html( WP_ENV ) . '</code>' );
 			} else {
-				$message .= __( 'Current URL does not match production URL.', 'envcontrol' );
+				$message .= __( 'Current URL does not match production URL.', 'env-control' );
 			}
 
-			$message .= ' ' . __( 'Search engine indexing is automatically disabled.', 'envcontrol' );
-			$message .= ' <a href="' . admin_url( 'tools.php?page=env-control' ) . '">' . __( 'Configure Environment Control', 'envcontrol' ) . '</a>';
+			$message .= ' ' . __( 'Search engine indexing is automatically disabled.', 'env-control' );
+			$message .= ' <a href="' . admin_url( 'tools.php?page=env-control' ) . '">' . __( 'Configure Environment Control', 'env-control' ) . '</a>';
 
 			echo '<div class="notice notice-info"><p>' . wp_kses_post( $message ) . '</p></div>';
 		}
@@ -443,14 +443,17 @@ register_deactivation_hook( __FILE__, 'env_control_deactivate' );
 /**
  * Runs on plugin deactivation.
  *
- * Restores search engine visibility only when the "disable_when_plugin_disabled"
- * setting is enabled; otherwise leaves the current blog_public value untouched
- * so non-production sites stay discouraged from indexing after deactivation.
+ * When the "disable_when_plugin_disabled" setting is enabled, search engines are
+ * always allowed. Otherwise blog_public is synced to the current environment,
+ * because the pre_option filter never writes to the database and the stored value
+ * may be stale (e.g. a production database cloned to staging).
  */
 function env_control_deactivate() {
 	$settings = env_control_get_settings();
 
-	if ( $settings['disable_when_plugin_disabled'] ) {
+	if ( $settings['disable_when_plugin_disabled'] || env_control_is_production_environment() ) {
 		update_option( 'blog_public', '1' ); // Allow search engines.
+	} else {
+		update_option( 'blog_public', '0' ); // Keep non-production discouraged.
 	}
 }

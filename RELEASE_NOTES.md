@@ -32,7 +32,7 @@ This is the initial public release of Environment Control, a WordPress plugin th
 - **Backward Compatibility**: Includes legacy function support
 
 #### Safety & Reliability
-- **Safe Defaults**: Plugin deactivation restores search engine access
+- **Safe Defaults**: Plugin deactivation restores search engine access by default (configurable)
 - **Database Protection**: Proper option handling and validation
 - **Error Prevention**: Prevents accidental blocking of production sites
 

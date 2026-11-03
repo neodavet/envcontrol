@@ -42,7 +42,7 @@ Environment Control provides intelligent environment detection and serves as a f
 
 ### Manual Installation
 1. Download the plugin files
-2. Upload the `envcontrol` folder to `/wp-content/plugins/`
+2. Upload the `env-control` folder to `/wp-content/plugins/`
 3. Activate the plugin through the **Plugins** menu in WordPress
 4. Go to **Tools > Environment Control** to configure
 
@@ -88,7 +88,7 @@ Is WP_ENV defined?
 ### Built-in Search Engine Control
 - **Production**: Search engines allowed to index
 - **Non-Production**: Search engines automatically blocked
-- **Plugin Deactivation**: Safe default (allows indexing)
+- **Plugin Deactivation**: Allows indexing by default; if the "Plugin Disabled Behavior" option is off, the current environment's setting is saved instead
 
 ## 🛡️ Extensibility Framework
 

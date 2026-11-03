@@ -46,7 +46,7 @@ This plugin prevents accidental search engine indexing of development, staging, 
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/envcontrol/` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/env-control/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Use the Tools > WP Environment Control screen to configure the plugin.
 
@@ -68,7 +68,7 @@ Currently, the plugin is designed for single-site installations. Multisite suppo
 
 = What happens when I deactivate the plugin? =
 
-You can configure whether the plugin should restore search engine indexing when deactivated. This setting is available in the plugin configuration.
+By default the plugin restores search engine indexing when deactivated. If you turn off "Plugin Disabled Behavior" in the plugin configuration, the indexing setting for the current environment is saved instead (non-production sites stay discouraged).
 
 == Screenshots ==
 
@@ -82,7 +82,7 @@ You can configure whether the plugin should restore search engine indexing when 
 = 1.0.1 =
 * Confirmed compatibility with WordPress 7.0.
 * Fixed the "Plugin Disabled Behavior" setting being ignored on deactivation.
-* Fixed a text domain mismatch that prevented translations from loading.
+* Standardized the text domain to env-control.
 * Hardened an admin notice against a fatal error when the current screen is unavailable.
 * Coding standards and documentation cleanup (WordPress-Extra/WPCS).
 
@@ -92,7 +92,7 @@ You can configure whether the plugin should restore search engine indexing when 
 * Automatic search engine indexing control for non-production environments
 * Admin dashboard with real-time environment status
 * Configurable production URL settings
-* Safe plugin deactivation behavior (restores search engine access)
+* Safe plugin deactivation behavior (restores search engine access by default; configurable)
 * Visual indicators for production vs non-production status
 * Admin notices for non-production environment awareness
 * Extensible framework for custom environment-based controls
@@ -128,7 +128,7 @@ If WP_ENV is not defined, the plugin compares:
 == Upgrade Notice ==
 
 = 1.0.1 =
-Fixes the deactivation behavior setting being ignored, a translation loading issue, and confirms WordPress 7.0 compatibility.
+Fixes the deactivation behavior setting being ignored and confirms WordPress 7.0 compatibility.
 
 = 1.0.0 =
 Initial release of the rewritten plugin with enhanced features and improved environment detection.
