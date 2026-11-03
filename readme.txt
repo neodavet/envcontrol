@@ -1,10 +1,10 @@
 === Env Control ===
-Contributors: davet86
+Contributors: davet86, alkesh7
 Tags: environment, privacy, search engines, development, staging
 Requires at least: 6.8
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,13 @@ You can configure whether the plugin should restore search engine indexing when 
 
 == Changelog ==
 
+= 1.0.1 =
+* Confirmed compatibility with WordPress 7.0.
+* Fixed the "Plugin Disabled Behavior" setting being ignored on deactivation.
+* Fixed a text domain mismatch that prevented translations from loading.
+* Hardened an admin notice against a fatal error when the current screen is unavailable.
+* Coding standards and documentation cleanup (WordPress-Extra/WPCS).
+
 = 1.0.0 =
 * Initial release of Environment Control
 * Automatic environment detection using WP_ENV constant or URL comparison
@@ -119,6 +126,9 @@ If WP_ENV is not defined, the plugin compares:
 * Configured production URL (from plugin settings)
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Fixes the deactivation behavior setting being ignored, a translation loading issue, and confirms WordPress 7.0 compatibility.
 
 = 1.0.0 =
 Initial release of the rewritten plugin with enhanced features and improved environment detection.
