@@ -51,7 +51,7 @@ wp-config.php
 #
 # Machine-specific tool permissions and local agent config.
 .claude/
-CLAUDE.md
+/CLAUDE.md
 
 # Release tooling output
 /vendor/
