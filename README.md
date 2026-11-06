@@ -1,6 +1,11 @@
 # Environment Control
 
 A flexible WordPress plugin that automatically controls settings based on environment detection (production vs non-production). **Use this as a foundation to implement custom environment-based controls for any WordPress setting.**
+- Author: David Tavares Cuevas
+- Plugin URI: https://github.com/neodavet/envcontrol
+- License: GPL v2 or later
+- Requires: WordPress 5.9+, PHP 7.4+
+- Tested up to: WordPress 7.1
 
 ## 🎯 Overview
 
@@ -30,7 +35,7 @@ Environment Control provides intelligent environment detection and serves as a f
 - **WordPress**: 6.9 or higher
 - **PHP**: 7.0 or higher
 - **Permissions**: Administrator privileges for configuration
-- **Tested up to**: WordPress 6.9
+- **Tested up to**: WordPress 7.1
 
 ## 🛠️ Installation
 
@@ -206,7 +211,7 @@ This program is free software; you can redistribute it and/or modify it under th
 
 ## 👨‍💻 Author
 
-**neodavet** - [Portfolio](https://neodavet.github.io/davetportfolio/)
+**David Tavares Cuevas** - [Portfolio](https://neodavet.github.io/davetportfolio/)
 
 ## 🆘 Support
 

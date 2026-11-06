@@ -2,17 +2,19 @@
 /**
  * Plugin Name: Env Control
  * Description: Control WordPress settings based on environment detection (production vs non-production). Includes search engine indexing control and provides a framework for implementing custom environment-based settings.
- * Author: neodavet
+ * Author: David Tavares Cuevas
  * Author URI: https://neodavet.github.io/davetportfolio/
  * Version: 1.0.1
  * Text Domain: env-control
  * Tags: environment, production, development, staging, settings, indexing, framework
  * Requires at least: 6.8
- * Tested up to: 7.0
+ * Tested up to: 7.1
  * Requires PHP: 7.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
+ * Copyright (C) 2026 David Tavares Cuevas
+ * 
  * @package EnvControl
  */
 

@@ -2,7 +2,7 @@
 Contributors: davet86, alkesh7
 Tags: environment, privacy, search engines, development, staging
 Requires at least: 6.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0
 Stable tag: 1.0.1
 License: GPLv2 or later
@@ -80,7 +80,7 @@ By default the plugin restores search engine indexing when deactivated. If you t
 == Changelog ==
 
 = 1.0.1 =
-* Confirmed compatibility with WordPress 7.0.
+* Confirmed compatibility with WordPress 7.1.
 * Fixed the "Plugin Disabled Behavior" setting being ignored on deactivation.
 * Standardized the text domain to env-control.
 * Hardened an admin notice against a fatal error when the current screen is unavailable.
@@ -128,7 +128,7 @@ If WP_ENV is not defined, the plugin compares:
 == Upgrade Notice ==
 
 = 1.0.1 =
-Fixes the deactivation behavior setting being ignored and confirms WordPress 7.0 compatibility.
+Fixes the deactivation behavior setting being ignored and confirms WordPress 7.1 compatibility.
 
 = 1.0.0 =
 Initial release of the rewritten plugin with enhanced features and improved environment detection.
