@@ -1,15 +1,15 @@
-# Environment Control
+# Envwise Environment-Based Control
 
 A flexible WordPress plugin that automatically controls settings based on environment detection (production vs non-production). **Use this as a foundation to implement custom environment-based controls for any WordPress setting.**
 - Author: David Tavares Cuevas
 - Plugin URI: https://github.com/neodavet/envcontrol
 - License: GPL v2 or later
-- Requires: WordPress 5.9+, PHP 7.4+
+- Requires: WordPress 6.8+, PHP 7.0+
 - Tested up to: WordPress 7.1
 
 ## 🎯 Overview
 
-Environment Control provides intelligent environment detection and serves as a framework for implementing environment-specific WordPress configurations. The plugin includes search engine indexing control as a practical example, but can be extended to manage any WordPress setting based on your environment.
+Envwise provides intelligent environment detection and serves as a framework for implementing environment-specific WordPress configurations. The plugin includes search engine indexing control as a practical example, but can be extended to manage any WordPress setting based on your environment.
 
 ## 🚀 Key Features
 
@@ -42,19 +42,19 @@ Environment Control provides intelligent environment detection and serves as a f
 ### From WordPress.org (Coming Soon)
 1. Go to your WordPress admin dashboard
 2. Navigate to **Plugins > Add New**
-3. Search for "Environment Control"
+3. Search for "Envwise"
 4. Install and activate the plugin
 
 ### Manual Installation
 1. Download the plugin files
-2. Upload the `env-control` folder to `/wp-content/plugins/`
+2. Upload the `envwise` folder to `/wp-content/plugins/`
 3. Activate the plugin through the **Plugins** menu in WordPress
-4. Go to **Tools > Environment Control** to configure
+4. Go to **Tools > Envwise** to configure
 
 ## ⚙️ Quick Setup
 
 ### 1. Configure Production URL
-1. Navigate to **Tools > Environment Control**
+1. Navigate to **Tools > Envwise**
 2. Enter your production site URL (e.g., `https://www.yoursite.com/`)
 3. Save settings
 
@@ -99,11 +99,11 @@ Is WP_ENV defined?
 
 ### For Developers
 
-Use Environment Control as a foundation for custom environment-based features:
+Use Envwise as a foundation for custom environment-based features:
 
 ```php
 // Check environment in your custom code
-if (env_control_is_production_environment()) {
+if (envwise_is_production_environment()) {
     // Production-only functionality
     enable_analytics();
     enable_caching();
@@ -114,8 +114,8 @@ if (env_control_is_production_environment()) {
 }
 
 // Get plugin settings
-$settings = env_control_get_settings();
-$production_url = env_control_get_production_url();
+$settings = envwise_get_settings();
+$production_url = envwise_get_production_url();
 ```
 
 ### Extend for Custom Controls
@@ -134,7 +134,7 @@ The plugin architecture makes it easy to add environment-based controls for:
 ```php
 // Add custom environment-based email control
 add_filter('pre_option_admin_email', function($default) {
-    if (!env_control_is_production_environment()) {
+    if (!envwise_is_production_environment()) {
         return 'dev@yoursite.com'; // Use dev email on non-production
     }
     return $default; // Use configured email on production
@@ -158,9 +158,9 @@ add_filter('pre_option_admin_email', function($default) {
 ## 🔌 Developer Functions
 
 ### Available Functions
-- `env_control_is_production_environment()` - Check if current environment is production
-- `env_control_get_settings()` - Get all plugin settings
-- `env_control_get_production_url()` - Get configured production URL
+- `envwise_is_production_environment()` - Check if current environment is production
+- `envwise_get_settings()` - Get all plugin settings
+- `envwise_get_production_url()` - Get configured production URL
 
 ### Hooks and Filters
 - Use WordPress standard hooks to extend functionality

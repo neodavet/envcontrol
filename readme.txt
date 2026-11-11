@@ -1,10 +1,10 @@
-=== Env Control ===
+=== Envwise Environment-Based Control ===
 Contributors: davet86, alkesh7
 Tags: environment, privacy, search engines, development, staging
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,9 +46,9 @@ This plugin prevents accidental search engine indexing of development, staging, 
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/env-control/` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/envwise/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the Tools > WP Environment Control screen to configure the plugin.
+3. Use the Tools > Envwise screen to configure the plugin.
 
 == Frequently Asked Questions ==
 
@@ -79,6 +79,11 @@ By default the plugin restores search engine indexing when deactivated. If you t
 
 == Changelog ==
 
+= 1.1.0 =
+* Renamed the plugin to Envwise Environment-Based Control (slug and text domain: envwise).
+* Renamed functions and constants to the envwise_ / ENVWISE_ prefix.
+* Existing settings are migrated automatically on activation.
+
 = 1.0.1 =
 * Confirmed compatibility with WordPress 7.1.
 * Fixed the "Plugin Disabled Behavior" setting being ignored on deactivation.
@@ -102,7 +107,7 @@ By default the plugin restores search engine indexing when deactivated. If you t
 
 = Setting Up Production URL =
 
-1. Navigate to Tools > WP Environment Control
+1. Navigate to Tools > Envwise
 2. Enter your production site URL (e.g., https://www.yoursite.com/)
 3. Configure plugin deactivation behavior
 4. Save settings
@@ -126,6 +131,9 @@ If WP_ENV is not defined, the plugin compares:
 * Configured production URL (from plugin settings)
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+The plugin is now Envwise Environment-Based Control. Custom code calling env_control_* functions must be updated to envwise_*.
 
 = 1.0.1 =
 Fixes the deactivation behavior setting being ignored and confirms WordPress 7.1 compatibility.
