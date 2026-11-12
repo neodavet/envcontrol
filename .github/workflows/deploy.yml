@@ -1,0 +1,70 @@
+# Deploys the plugin to the WordPress.org SVN repository (trunk + tags/X.Y.Z).
+#
+# Triggers:
+#   - pushing a tag vX.Y.Z (normal release flow, see bin/release.sh)
+#   - manually from the Actions tab ("Run workflow", pick a tag as the ref)
+#
+# Required repository secrets: SVN_USERNAME, SVN_PASSWORD
+# (SVN password from https://profiles.wordpress.org/me/profile/edit/group/3/?screen=svn-password)
+name: Deploy to WordPress.org
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+concurrency:
+  group: wporg-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to WordPress.org
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require a tag ref
+        if: github.ref_type != 'tag'
+        run: |
+          echo "::error::Run this workflow on a tag (vX.Y.Z), not on a branch."
+          exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify version consistency
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          HEADER=$(grep -m1 -E '^[ *]*Version:' envwise.php | sed -E 's/.*Version:[[:space:]]*//' | tr -d '\r ')
+          CONST=$(grep -m1 "define( 'ENVWISE_VERSION'" envwise.php | sed -E "s/.*'ENVWISE_VERSION', '([^']+)'.*/\1/")
+          STABLE=$(grep -m1 -E '^Stable tag:' readme.txt | sed -E 's/Stable tag:[[:space:]]*//' | tr -d '\r ')
+          echo "tag=$TAG header=$HEADER const=$CONST stable=$STABLE"
+          if [ "$TAG" != "$HEADER" ] || [ "$TAG" != "$CONST" ] || [ "$TAG" != "$STABLE" ]; then
+            echo "::error::Version mismatch. Tag=$TAG, header=$HEADER, ENVWISE_VERSION=$CONST, Stable tag=$STABLE"
+            exit 1
+          fi
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: WordPress.org plugin deploy
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: envwise
+          VERSION: ${{ steps.version.outputs.version }}
+          ASSETS_DIR: .wordpress-org
+
+      - name: Attach zip to GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" "${{ steps.deploy.outputs.zip-path }}" --clobber
