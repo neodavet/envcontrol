@@ -3,6 +3,7 @@
 /.git/
 /.github/
 /.wordpress-org/
+/assets-src/
 /.cursor/
 /.claude/
 /.idea/
