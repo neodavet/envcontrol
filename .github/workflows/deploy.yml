@@ -18,6 +18,9 @@ concurrency:
   group: wporg-deploy
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     name: Deploy to WordPress.org
@@ -30,7 +33,7 @@ jobs:
           exit 1
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Verify version consistency
         id: version
